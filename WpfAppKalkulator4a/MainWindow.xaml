@@ -10,8 +10,8 @@
         <TextBlock>Podaj liczbę</TextBlock>
         <TextBox x:Name="liczbaTextBox"></TextBox>
         <TextBlock>Podaj system</TextBlock>
-        <ComboBox x:Name="systemCombobox"></ComboBox>
+        <ComboBox x:Name="systemCombobox" SelectedIndex="0"></ComboBox>
         <Button Click="Button_Click_ZmienNaDziesietne">Zamień na dziesiętne</Button>
-        <Button>Zamień na system</Button>
+        <Button Click="Button_Click_Zamien_NaSystem">Zamień na system</Button>
     </UniformGrid>
 </Window>

@@ -29,7 +29,7 @@ namespace WpfAppKalkulator4a
 
         private void Button_Click_ZmienNaDziesietne(object sender, RoutedEventArgs e)
         {
-            string liczba = liczbaTextBox.Text;
+            string liczba = liczbaTextBox.Text; //tylko cyfry i deuże litery A:F
             int system = int.Parse(systemCombobox.Text);//nie trzeba tryParse bo nie można wprowadzić nic niedozwolonego
             int wynik = zamienNaDzieistne(liczba, system);
             MessageBox.Show("Liczba dziesiętnie " + wynik.ToString());
@@ -40,13 +40,58 @@ namespace WpfAppKalkulator4a
             int potega = 1;
             for (int i = liczba.Length-1;i>=0;i--)
             {
-                int cyfra = int.Parse(liczba[i]+"");
-                MessageBox.Show(liczba[i] + " " + cyfra.ToString());
+                int cyfra = liczba[i];
+                if (cyfra < 65)
+                {
+                    cyfra = cyfra - (int)'0';//odejmuję 48 ascii 0
+                }
+                else
+                {
+                    cyfra = cyfra - (int)'A'+10;
+                }
+                    MessageBox.Show(liczba[i] + " " + cyfra.ToString());
                 wynikDziestny = wynikDziestny + cyfra * potega;
                 potega = potega * system;
             }
             return wynikDziestny;
         }
 
+
+        private string zamienNaSystem(int liczba,int system)
+        {
+            string wynik = "";
+            while (liczba > 0)
+            {
+                int cyfra = liczba % system;
+                // wynik = wynik + cyfra; bledne
+                //dodawanie string nie jest przemienne
+                if (cyfra < 10)
+                {
+                    wynik = cyfra + wynik;
+                }
+                else
+                {
+                    wynik = (char)(cyfra + 55) + wynik;
+                }
+                liczba = liczba / system;
+            }
+
+            return wynik;
+        }
+
+        private void Button_Click_Zamien_NaSystem(object sender, RoutedEventArgs e)
+        {
+            int liczba;
+            if (int.TryParse(liczbaTextBox.Text, out liczba))
+            {
+                int system = int.Parse(systemCombobox.Text);//nie trzeba tryParse bo nie można wprowadzić nic niedozwolonego
+                string wynik = zamienNaSystem(liczba, system);
+                MessageBox.Show("Liczba w systemie " + wynik.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Podaj liczbe dziisiętną");
+            }
+        }
     }
 }
